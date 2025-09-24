@@ -3,11 +3,11 @@ using namespace std;
 
 int main() {
 const int PIN_BENAR = 1234;
-int saldo = 1500000; // Saldo awal
+int saldo = 1500000; 
 int pin, pilihan;
 int jumlah = 0;
 int pinChance = 3;
-bool success = false;
+bool step = false;
 string lanjut;
 
 
@@ -16,28 +16,30 @@ string lanjut;
 
 cout << "=== SELAMAT DATANG DI ATM ===" << endl;
 
-while (pinChance > 0) {
+while (pinChance > 0) {      
     cout << "Masukkan Pin ATM anda (1234) : " << endl;
-    cin >> pin;
+    cin >> pin;     
 
-    if (pin == PIN_BENAR) {
-        pinChance -= 10;
-        success = true;
+    if (pin == PIN_BENAR) {  
+        step = true;
+        break;
     } else {
         pinChance--;
         cout << "Pin salah, Silahkan masukkan ulang, sisa kesempatan : " << pinChance << endl;
     }
 }
 
-if (pinChance == 0) {
+if (!step) {
     cout << "Kesemapatan anda sudah habis" << endl;
-    return 0;
+    return 0;   //kesempatan habis tidak dapat mengulang
 }
 
 cout << "\nPIN Benar! Selamat datang " << endl;
 cout << "Saldo anda : " << saldo << endl;
 
-while (success == true) {
+//Menu utama
+
+while (step == true) {
 
     cout << "\nMenu :" << endl;
     cout << "1. Cek Saldo" << endl;
@@ -48,7 +50,7 @@ while (success == true) {
     cin >> pilihan;
     
     if (pilihan == 1) {
-        char confirm;
+        char confirm;  
 
         cout << "\nSaldo anda : " << saldo << "\n" << endl; 
 
@@ -56,16 +58,85 @@ while (success == true) {
         cin >> confirm;
         
         if (confirm == 'n') {
-            success = false;
+            step = false;   
+            break;
+        } else if (confirm != 'y') {
+            cout << "Input error!" << endl;
         }
        
     } else if (pilihan == 2) {
 
+        bool stepTransaksi;
         char confirm;
-        success = false;
+        stepTransaksi = false;   
 
-        while (success == false) {
+        while (stepTransaksi == false) {
             int pajak = 6500;
+            int preSaldo = saldo;
+
+            cout << "\nMasukkan nominal penarikan tunai : " << endl;
+            cout << "Ketik '1' untuk kembali ke menu utama" << endl;
+
+            cin >> jumlah ;
+
+            if (cin.fail()) {
+                cout << "\nHARUS BERUPA ANGKA" << endl;
+                cin.clear();              // reset error jika penulisan selain angka
+                cin.ignore(1000, '\n');
+            } else if (jumlah == 1) {
+                stepTransaksi = true;
+            } else if (jumlah < 50000) {
+                cout << "\nJumlah tarik tunai terlalu kecil, minimal Rp 50.000 " << endl;
+            } else if (jumlah > 2500000) {
+                cout << "\nJumlah tarik tunai terlalu Besar, maximal Rp 2.500.000 " << endl;
+            } else if (saldo < jumlah + pajak) {
+                cout << "\nSaldo tidak mencukupi" << endl; 
+            } else { 
+                preSaldo = saldo - (jumlah + pajak);
+            
+                cout << "\n=== KONFIRMASI PENARIKAN ===" << endl;
+                cout << "Jumlah penarikan : " << jumlah << endl;
+                cout << "total debet : " << jumlah + pajak  << endl;
+                cout << "Sisa saldo anda : " << preSaldo << "\n" << endl;
+
+                cout << "Konfirmasi? y/n" << endl;
+                cin >> confirm;
+
+                if (confirm == 'y') {
+                    saldo = preSaldo;
+
+                    cout << "\nTransasksi berhasil" << endl;
+                    cout << "Ambil uang anda : " << jumlah << endl;
+                    cout << "Sisa saldo anda : " << saldo << "\n" << endl;
+
+                    cout << "lanjut?";
+                    cin >> lanjut;
+
+                    stepTransaksi = true;
+                } else if (confirm != 'n') {
+                    cout << "\nInput Error!" << endl;
+                }
+            }
+        }
+    } else if (pilihan == 3) {
+
+        bool stepTransaksi;
+        char confirm;
+        stepTransaksi = false;
+
+        while (stepTransaksi == false) {
+            int pajak = 2500;
+            int preSaldo = saldo;
+
+            cout << "\nTransfer ke sesama bank? y/n" << endl;
+            cin >> confirm;
+
+            if (confirm == 'n') {
+                pajak += 4000;
+            } else if (confirm != 'y') {
+                cout << "\nInput error";
+                continue;
+            }
 
             cout << "\nMasukkan nominal penarikan tunai : " << endl;
             cout << "Ketik '1' untuk kembali ke menu utama" << endl;
@@ -77,95 +148,39 @@ while (success == true) {
                 cin.clear();              // reset error state
                 cin.ignore(1000, '\n');
             } else if (jumlah == 1) {
-                success = true;
-                cout << success;
-            } else if (jumlah < 50000) {
-                cout << "\nJumlah tarik tunai terlalu kecil, minimal Rp 50.000 " << endl;
-            } else if (jumlah > 2500000) {
-                cout << "\nJumlah tarik tunai terlalu Besar, maximal Rp 2500000 " << endl;
-            } else if (saldo < jumlah) {
-                cout << "\nSaldo tidak mencukupi" << endl; 
-            } else { 
-                saldo -= (jumlah + pajak);
-            
-                cout << "\n=== KONFIRMASI PENARIKAN ===" << endl;
-                cout << "Jumlah penarikan : " << jumlah << endl;
-                cout << "total debet : " << jumlah + pajak  << endl;
-                cout << "Sisa saldo anda : " << saldo << "\n" << endl;
-
-                cout << "Konfirmasi? y/n" << endl;
-                cin >> confirm;
-
-                if (confirm == 'y') {
-                    cout << "\nTransasksi berhasil" << endl;
-                    cout << "Ambil uang anda : " << jumlah << endl;
-                    cout << "Sisa saldo anda : " << saldo << "\n" << endl;
-
-                    cout << "lanjut?";
-                    cin >> lanjut;
-
-                    success = true;
-                }
-            }
-            }
-        } else if (pilihan == 3) {
-
-        char confirm;
-        success = false;
-
-        while (success == false) {
-            int pajak = 2500;
-
-            cout << "Transfer ke sesama bank? y/n" << endl;
-            cin >> confirm;
-
-            if (confirm == 'n') {
-                pajak += 4000;
-            } else if (confirm != 'y') {
-                cout << "\nsaya anggap sebagai iya";
-            }
-
-            cout << "\n\nMasukkan nominal penarikan tunai : " << endl;
-            cout << "Ketik '1' untuk kembali ke menu utama" << endl;
-
-            cin >> jumlah ;
-
-            if (cin.fail()) {
-                cout << "\nHARUS BERUPA ANGKA" << endl;
-                cin.clear();              // reset error state
-                cin.ignore(1000, '\n');
-            } else if (jumlah == 1) {
-                success = true;
+                stepTransaksi = true;
             } else if (jumlah < 10000) {
                 cout << "\nJumlah tarik tunai terlalu kecil, minimal Rp 10.000 " << endl;
-            } else if (saldo <= jumlah) {
+            } else if (saldo < jumlah + pajak) {
                 cout << "\nSaldo tidak mencukupi" << endl;
             } else {
-                saldo -= (jumlah + pajak);
+                preSaldo = saldo - (jumlah + pajak);
 
                 cout << "\n=== KONFIRMASI PENARIKAN ===" << endl;
-                cout << "Jumlah penarikan : " << jumlah << endl;
+                cout << "Jumlah transfer : " << jumlah << endl;
                 cout << "total debet : " << jumlah + pajak  << endl;
-                cout << "Sisa saldo anda : " << saldo << "\n" << endl;
+                cout << "Sisa saldo anda : " << preSaldo << "\n" << endl;
 
                 cout << "Konfirmasi? y/n" << endl;
                 cin >> confirm;
 
                 if (confirm == 'y') {
+                    saldo = preSaldo;
+
                     cout << "\nTransasksi berhasil" << endl;
-                    cout << "Ambil uang anda : " << jumlah << endl;
+                    cout << "Total transfer : " << jumlah << endl;
                     cout << "Sisa saldo anda : " << saldo << "\n" << endl;
 
                     cout << "lanjut?";
                     cin >> lanjut;
 
-                    success = true;
+                    stepTransaksi = true;
                 }
                 
             }
         }
     } else if (pilihan == 4) {
-        success = false;
+        step = false;
 
     }
 }
