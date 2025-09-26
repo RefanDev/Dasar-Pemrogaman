@@ -43,12 +43,12 @@ int main()
     cout << member << discNum << " ) : " << subTotal * discount << endl;
     totalDiscount = subTotal * discount;
 
-    if (jumlahItem >= 10) {
-        discount = 0.05;
-        discNum = "5%";
-    } else if (jumlahItem >= 20) {
+    if (jumlahItem >= 20) { 
         discount = 0.1;
         discNum = "10%";
+    } else if (jumlahItem >= 10) {
+        discount = 0.05;
+        discNum = "5%";
     } else {
         discount = 0;
         discNum = "none";
@@ -57,12 +57,12 @@ int main()
     cout << "Quantity discount ( " << discNum << " ) : " << subTotal * discount << endl;
     totalDiscount = totalDiscount + (subTotal * discount); 
 
-    if (subTotal >= 500000) {
-        discount = 0.05;
-        discNum = "5%";
-    } else if (subTotal >= 1000000) {
+    if (subTotal >=1000000) {
         discount = 0.10;
         discNum = "10%";
+    } else if (subTotal >= 500000) {
+        discount = 0.05;
+        discNum = "5%";
     } else {
         discount = 0;
         discNum = "none";

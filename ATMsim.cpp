@@ -10,9 +10,7 @@ int pinChance = 3;
 bool step = false;
 string lanjut;
 
-
 // TODO: Implementasikan ATM simulator
-
 
 cout << "=== SELAMAT DATANG DI ATM ===" << endl;
 
@@ -52,7 +50,7 @@ while (step == true) {
     if (pilihan == 1) {
         char confirm;  
 
-        cout << "\nSaldo anda : " << saldo << "\n" << endl; 
+        cout << "\nSaldo anda : Rp " << saldo << "\n" << endl; 
 
         cout << "ingin kembali ke menu awal? y/n" << endl;
         cin >> confirm;
@@ -95,9 +93,9 @@ while (step == true) {
                 preSaldo = saldo - (jumlah + pajak);
             
                 cout << "\n=== KONFIRMASI PENARIKAN ===" << endl;
-                cout << "Jumlah penarikan : " << jumlah << endl;
-                cout << "total debet : " << jumlah + pajak  << endl;
-                cout << "Sisa saldo anda : " << preSaldo << "\n" << endl;
+                cout << "Jumlah penarikan : Rp " << jumlah << endl;
+                cout << "total debet : Rp " << jumlah + pajak  << endl;
+                cout << "Sisa saldo anda Rp : " << preSaldo << "\n" << endl;
 
                 cout << "Konfirmasi? y/n" << endl;
                 cin >> confirm;
@@ -106,13 +104,15 @@ while (step == true) {
                     saldo = preSaldo;
 
                     cout << "\nTransasksi berhasil" << endl;
-                    cout << "Ambil uang anda : " << jumlah << endl;
-                    cout << "Sisa saldo anda : " << saldo << "\n" << endl;
+                    cout << "Ambil uang anda : Rp " << jumlah << endl;
+                    cout << "Sisa saldo anda : Rp " << saldo << "\n" << endl;
 
                     cout << "lanjut?";
                     cin >> lanjut;
 
                     stepTransaksi = true;
+                } else if (confirm == 'n') {
+                    cout << "\nTransaksi dibatalkan" << endl;
                 } else if (confirm != 'n') {
                     cout << "\nInput Error!" << endl;
                 }
@@ -157,9 +157,9 @@ while (step == true) {
                 preSaldo = saldo - (jumlah + pajak);
 
                 cout << "\n=== KONFIRMASI PENARIKAN ===" << endl;
-                cout << "Jumlah transfer : " << jumlah << endl;
-                cout << "total debet : " << jumlah + pajak  << endl;
-                cout << "Sisa saldo anda : " << preSaldo << "\n" << endl;
+                cout << "Jumlah transfer : Rp " << jumlah << endl;
+                cout << "total debet : Rp " << jumlah + pajak  << endl;
+                cout << "Sisa saldo anda : Rp " << preSaldo << "\n" << endl;
 
                 cout << "Konfirmasi? y/n" << endl;
                 cin >> confirm;
@@ -168,19 +168,26 @@ while (step == true) {
                     saldo = preSaldo;
 
                     cout << "\nTransasksi berhasil" << endl;
-                    cout << "Total transfer : " << jumlah << endl;
-                    cout << "Sisa saldo anda : " << saldo << "\n" << endl;
+                    cout << "Total transfer : Rp " << jumlah << endl;
+                    cout << "Sisa saldo anda : Rp " << saldo << "\n" << endl;
 
                     cout << "lanjut?";
                     cin >> lanjut;
 
                     stepTransaksi = true;
+                } else if (confirm == 'n') {
+                    cout << "\nTransaksi dibatalkan" << endl;
+                } else if (confirm != 'n') {
+                    cout << "\nInput Error!" << endl;
                 }
                 
             }
         }
     } else if (pilihan == 4) {
         step = false;
+
+    } else {
+        cout << "Input harus berupa angka 1-4" << endl;
 
     }
 }
